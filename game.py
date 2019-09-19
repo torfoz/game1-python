@@ -4,7 +4,7 @@ import pygame
 from pygame.locals import *
 import settings
 import utils
-from sprites import StaticElement, MovingElement, BouncingElement
+from sprites import StaticElement, MovingElement, BouncingElement, Player
 
 # Senterer pygame vinduet
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -37,7 +37,7 @@ elements.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_2, (0, 0), (4,2)))
 elements.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_3, (0, 0), (8,2)))
 elements.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_4, (0, 0), (12,2)))
 
-elements.add(BouncingElement(settings.PLAYER, (0, 300), (2,0)))
+elements.add(Player(settings.PLAYER, (0, 300), (1,0)))
 
 
 while True:

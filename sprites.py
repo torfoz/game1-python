@@ -46,3 +46,28 @@ class BouncingElement(MovingElement):
         
         if (self.rect.top <= 0) or (self.rect.bottom >= settings.SCREEN_HEIGHT):
             self.dy *= -1
+
+class Player(MovingElement):
+    def update(self):
+        MovingElement.update(self)
+        wall_LR = True
+        wall_TB = True
+        if (self.rect.left <= 0) or (self.rect.right > settings.SCREEN_WIDTH):
+            self.dx *= 0
+            wall_LR = False        
+
+        if (self.rect.top <= 0) or (self.rect.bottom >= settings.SCREEN_HEIGHT):
+            self.dy *= 0
+            wall_TB = False
+
+        key =  pygame.key.get_pressed()
+        if wall_TB:
+            if key[pygame.K_DOWN]: # down key
+                self.dy -= -1 # move down
+            elif key[pygame.K_UP]: # up key
+                self.dy -= 1 # move up
+        if wall_LR:    
+            if key[pygame.K_RIGHT]: # right key
+                self.dx += 1 # move right
+            elif key[pygame.K_LEFT]: # left key
+                self.dx -= 1 # move left
