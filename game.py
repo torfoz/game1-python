@@ -31,8 +31,11 @@ background.blit(pygame.transform.smoothscale(bg_img, surface.get_rect().size), (
 myfont = pygame.font.SysFont('monospace', 16)
 
 enemies = pygame.sprite.Group()
+enemies2 = pygame.sprite.Group()
+enemies3 = pygame.sprite.Group()
+enemies4 = pygame.sprite.Group()
 coin = pygame.sprite.GroupSingle()
-character = pygame.sprite.GroupSingle() 
+character = pygame.sprite.GroupSingle()
 
 enemies.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_1, (560, 60), (2,2)))
 coin.add(StaticElement(settings.ITEM_COIN, (200, 100)))
@@ -45,6 +48,7 @@ pygame.mixer.music.load(settings.BACKGROUND_MUSIC)
 pygame.mixer.music.play(-1)
 
 effect = pygame.mixer.Sound(settings.COIN_SOUND)
+
 
 def level_2():
     font = pygame.font.SysFont('comicsansms', 100)
@@ -64,6 +68,15 @@ def game_over():
     pygame.quit()
     sys.exit()
 
+def game_won():
+    font = pygame.font.SysFont('comicsansms', 100)
+    text = font.render('YOU WON!!', True, (255, 0, 0))
+    screen.blit(text, (300,300))
+    screen.blit(scoretext, (300, 400))
+    pygame.display.flip()
+    pygame.display.update()
+    pygame.time.wait(2000)   
+
 
 while True:
     pygame.event.pump()
@@ -78,6 +91,12 @@ while True:
 
     enemies.update()
     enemies.draw(surface)
+    enemies2.update()
+    enemies2.draw(surface)
+    enemies3.update()
+    enemies3.draw(surface)
+    enemies4.update()
+    enemies4.draw(surface)
 
     coin.update()
     coin.draw(surface)
@@ -116,7 +135,24 @@ while True:
             enemies.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_1, (560, 60), (1,2)))
             coin.add(StaticElement(settings.ITEM_COIN, (500, 600)))
         if score == 5:
-        #    pygame.sprite.kill(enemies)
+            pygame.sprite.Group.empty(enemies)
             level_2()
-            enemies.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_2, (560, 60), (4,4)))
+            enemies2.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_2, (560, 60), (2,3)))
             coin.add(StaticElement(settings.ITEM_COIN, (900, 300)))
+        if score == 6:
+            enemies.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_2, (560, 60), (3,2)))
+            coin.add(StaticElement(settings.ITEM_COIN, (600, 400)))
+        if score == 7:
+            enemies.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_2, (560, 60), (3,2)))
+            coin.add(StaticElement(settings.ITEM_COIN, (300, 200)))
+        if score == 8:
+            enemies.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_2, (560, 60), (3,2)))
+            coin.add(StaticElement(settings.ITEM_COIN, (1000, 300)))
+        if score == 9:
+            enemies.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_2, (560, 60), (3,2)))
+            coin.add(StaticElement(settings.ITEM_COIN, (350, 600)))
+        if score == 10:
+            enemies.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_2, (560, 60), (3,2)))
+            coin.add(StaticElement(settings.ITEM_COIN, (500, 600)))
+        if score == 11:
+            game_won()
