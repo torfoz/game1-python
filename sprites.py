@@ -72,14 +72,14 @@ class Player(MovingElement):
 
         key =  pygame.key.get_pressed()
         if wall_B:
-            if key[pygame.K_DOWN]: # down key
-                self.dy -= -1 # move down
+            if key[pygame.K_DOWN]:
+                self.dy -= -1
         if wall_T:
-            if key[pygame.K_UP]: # up key
-                self.dy -= 1 # move up
+            if key[pygame.K_UP]:
+                self.dy -= 1
         if wall_R:    
-            if key[pygame.K_RIGHT]: # right key
-                self.dx += 1 # move right
+            if key[pygame.K_RIGHT]:
+                self.dx += 1
         if wall_L:        
-            if key[pygame.K_LEFT]: # left key
-                self.dx -= 1 # move left
+            if key[pygame.K_LEFT]:
+                self.dx -= 1
