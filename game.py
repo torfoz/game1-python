@@ -48,6 +48,7 @@ pygame.mixer.music.load(settings.BACKGROUND_MUSIC)
 pygame.mixer.music.play(-1)
 
 effect = pygame.mixer.Sound(settings.COIN_SOUND)
+#effect_death = pygame.mixer.Sound(settings.DEATH_SOUND)
 
 def level_2():
     font = pygame.font.SysFont('comicsansms', 100)
@@ -133,15 +134,19 @@ while True:
 
     enemy_hit = pygame.sprite.groupcollide(character, enemies, False, False)
     if enemy_hit:
+#        effect_death.play()
         game_over()
     enemy_hit2 = pygame.sprite.groupcollide(character, enemies2, False, False)
     if enemy_hit2:
+#        effect_death.play()
         game_over()
     enemy_hit3 = pygame.sprite.groupcollide(character, enemies3, False, False)
     if enemy_hit3:
+#        effect_death.play()
         game_over()
     enemy_hit4 = pygame.sprite.groupcollide(character, enemies4, False, False)
     if enemy_hit4:
+#        effect_death.play()
         game_over()
 
     coin_hit = pygame.sprite.groupcollide(character, coin, False, True)
