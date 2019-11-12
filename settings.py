@@ -9,6 +9,7 @@ SCREEN_HEIGHT = 720
 ASSETS_DIR         = 'assets'
 
 ITEM_COIN          = {'filename' : 'coin.png', 'size' : (64,64)}
+ITEM_CHEST         = {'filename' : 'chest.png', 'size' : (64,64)}
 
 ITEM_ENEMY_BLOCK_1 = {'filename' : '1.png', 'size' : (64,64)}
 ITEM_ENEMY_BLOCK_2 = {'filename' : '2.png', 'size' : (64,64)}
