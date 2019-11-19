@@ -3,12 +3,12 @@ import sys
 import pygame
 from pygame.locals import *
 import settings
-import
 import utils
 from random import choice
 from sprites import StaticElement, MovingElement, BouncingElement, Player
 
 game_start = True
+game = False
 
 # Senterer pygame vinduet
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -42,17 +42,13 @@ coin = pygame.sprite.GroupSingle()
 character = pygame.sprite.GroupSingle()
 chest = pygame.sprite.GroupSingle()
 
-coin.add(StaticElement(settings.ITEM_COIN, (200, 100)))
-
-character.add(Player(settings.PLAYER, (500, 300), (1,0)))
-
 score = 0
 
 pygame.mixer.music.load(settings.BACKGROUND_MUSIC)
 pygame.mixer.music.play(-1)
 
 effect = pygame.mixer.Sound(settings.COIN_SOUND)
-#effect_death = pygame.mixer.Sound(settings.DEATH_SOUND)
+effect_death = pygame.mixer.Sound(settings.DEATH_SOUND)
 
 enemiespawn = 560, 60
 
@@ -104,16 +100,6 @@ def level_4():
     pygame.display.update()
     pygame.time.wait(1000) 
 
-def game_over():
-    font = pygame.font.SysFont('comicsansms', 100)
-    text = font.render('Game Over', True, (255, 0, 0))
-    screen.blit(text, (350,200))
-    pygame.display.flip()
-    pygame.display.update()
-    pygame.time.sleep(3)
-    pygame.quit()
-    sys.exit()
-
 def game_won():
     font = pygame.font.SysFont('comicsansms', 100)
     text = font.render('YOU WON!!', True, (255, 0, 0))
@@ -122,30 +108,45 @@ def game_won():
     screen.blit(final_score_text, (350, 300))
     pygame.display.flip()
     pygame.display.update()
-    pygame.time.sleep(5)
-    pygame.quit()   
+    pygame.time.wait(5000)
+    pygame.quit()
     sys.exit()
 
-def game_start():
-    font = pygame.font.SysFont('comicsansms', 100)
-    text = font.render('Press Enter', True, (255, 0, 0))
-    screen.blit(text, (350,200))
-    pygame.display.flip()
-    pygame.display.update()
-    key =  pygame.key.get_pressed()
-    time.stop()
-    if key[pygame.K_a]:
-        game_start = False
+        
+coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
+character.add(Player(settings.PLAYER, (enemiespawn), (1,0))) 
 
-
-while True:
+while game_start:
     pygame.event.pump()
     for event in pygame.event.get():
         # Avslutter ved Window X eller Q tast
         if (event.type == QUIT) or ((event.type == KEYDOWN) and (event.key == K_q)):
             pygame.quit()
             sys.exit()
+        
+        if ((event.type == KEYDOWN) and (event.key == K_RETURN)):
+            game = True
+            game_start = False 
 
+    surface.blit(background, (0,0))
+    screen.blit(surface, (0,0))
+
+    font = pygame.font.SysFont('comicsansms', 100)
+    text = font.render('Start Game', True, (255, 0, 0))
+    text1 = font.render('Press Enter', True, (255, 0, 0))
+    screen.blit(text, (350,200))
+    screen.blit(text1, (350,300))
+    pygame.display.flip()
+    pygame.display.update()
+
+
+while game:
+    pygame.event.pump()
+    for event in pygame.event.get():
+        # Avslutter ved Window X eller Q tast
+        if (event.type == QUIT) or ((event.type == KEYDOWN) and (event.key == K_q)):
+            pygame.quit()
+            sys.exit()
 
     surface.blit(background, (0,0))
 
@@ -163,6 +164,7 @@ while True:
     enemies4.update()
     enemies4.draw(surface)
 
+
     character.update()
     character.draw(surface)
 
@@ -174,33 +176,38 @@ while True:
     pygame.display.flip()
     pygame.display.update()
     clock.tick(settings.FPS)
-    
 
     enemy_hit = pygame.sprite.groupcollide(character, enemies, False, False)
     if enemy_hit:
-#        effect_death.play()
-        game_over()
+        effect_death.play()
+        pygame.time.wait(1000)
+        game = False
     enemy_hit2 = pygame.sprite.groupcollide(character, enemies2, False, False)
     if enemy_hit2:
-#        effect_death.play()
-        game_over()
+        effect_death.play()
+        pygame.time.wait(1000)
+        game = False
     enemy_hit3 = pygame.sprite.groupcollide(character, enemies3, False, False)
     if enemy_hit3:
-#        effect_death.play()
-        game_over()
+        effect_death.play()
+        pygame.time.wait(1000)
+        game = False
     enemy_hit4 = pygame.sprite.groupcollide(character, enemies4, False, False)
     if enemy_hit4:
-#        effect_death.play()
-        game_over()
+        effect_death.play()
+        pygame.time.wait(1000)
+        game = False
 
     coin_hit = pygame.sprite.groupcollide(character, coin, False, True)
     chest_hit = pygame.sprite.groupcollide(character, chest, False, False)
+
+
     if chest_hit:
         game_won() 
     if coin_hit:
-        effect.set_volume(1000.0)
+        effect.set_volume(1000)
         effect.play()
-        score = score + 1        
+        score = score + 1   
         if score == 1:
             enemies.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_1, (enemiespawn), (r1(), r1())))
             coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
@@ -296,3 +303,25 @@ while True:
             coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 30:
             chest.add(StaticElement(settings.ITEM_CHEST, (570, 70)))
+
+while not game or game_start:
+    pygame.event.pump()
+    for event in pygame.event.get():
+        # Avslutter ved Window X eller Q tast
+        if (event.type == QUIT) or ((event.type == KEYDOWN) and (event.key == K_q)):
+            pygame.quit()
+            sys.exit()
+        
+        if ((event.type == KEYDOWN) and (event.key == K_r)):
+            game = True
+
+    surface.blit(background, (0,0))
+    screen.blit(surface, (0,0)) 
+
+    font = pygame.font.SysFont('comicsansms', 100)
+    text = font.render('Game Over', True, (255, 0, 0))
+    final_score_text = font.render('Coins = '+str(score), 1, (255, 255, 255))
+    screen.blit(text, (350,200))
+    screen.blit(final_score_text, (350, 300))
+    pygame.display.flip()
+    pygame.display.update()
