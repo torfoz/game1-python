@@ -3,9 +3,12 @@ import sys
 import pygame
 from pygame.locals import *
 import settings
+import
 import utils
 from random import choice
 from sprites import StaticElement, MovingElement, BouncingElement, Player
+
+game_start = True
 
 # Senterer pygame vinduet
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -69,6 +72,14 @@ def r4():
     r = choice([i for i in range(-6,6) if i not in [-4, -3, -2, -1, 0, 1, 2, 3, 4]])
     return r
 
+def cw():
+    c = choice([i for i in range(30, 1200) if i not in [0]])
+    return c
+
+def ch():
+    c = choice([i for i in range(30, 680) if i not in [0]])
+    return c
+
 def level_2():
     font = pygame.font.SysFont('comicsansms', 100)
     text = font.render('Level 2', True, (255, 255, 255))
@@ -99,7 +110,7 @@ def game_over():
     screen.blit(text, (350,200))
     pygame.display.flip()
     pygame.display.update()
-    pygame.time.wait(2000)
+    pygame.time.sleep(3)
     pygame.quit()
     sys.exit()
 
@@ -111,9 +122,21 @@ def game_won():
     screen.blit(final_score_text, (350, 300))
     pygame.display.flip()
     pygame.display.update()
-    pygame.time.wait(5000)
-    pygame.quit()
+    pygame.time.sleep(5)
+    pygame.quit()   
     sys.exit()
+
+def game_start():
+    font = pygame.font.SysFont('comicsansms', 100)
+    text = font.render('Press Enter', True, (255, 0, 0))
+    screen.blit(text, (350,200))
+    pygame.display.flip()
+    pygame.display.update()
+    key =  pygame.key.get_pressed()
+    time.stop()
+    if key[pygame.K_a]:
+        game_start = False
+
 
 while True:
     pygame.event.pump()
@@ -140,7 +163,6 @@ while True:
     enemies4.update()
     enemies4.draw(surface)
 
-
     character.update()
     character.draw(surface)
 
@@ -152,6 +174,7 @@ while True:
     pygame.display.flip()
     pygame.display.update()
     clock.tick(settings.FPS)
+    
 
     enemy_hit = pygame.sprite.groupcollide(character, enemies, False, False)
     if enemy_hit:
@@ -180,96 +203,96 @@ while True:
         score = score + 1        
         if score == 1:
             enemies.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_1, (enemiespawn), (r1(), r1())))
-            coin.add(StaticElement(settings.ITEM_COIN, (500, 600)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 2:
             enemies.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_1, (enemiespawn), (r1(), r1())))
-            coin.add(StaticElement(settings.ITEM_COIN, (200, 100)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 3:
             enemies.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_1, (enemiespawn), (r1(), r1())))
-            coin.add(StaticElement(settings.ITEM_COIN, (300, 400)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 4:
             enemies.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_1, (enemiespawn), (r1(), r1())))
-            coin.add(StaticElement(settings.ITEM_COIN, (500, 600)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 5:
             pygame.sprite.Group.empty(enemies)
             level_2()
             enemies2.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_2, (enemiespawn), (r2(),r2())))
-            coin.add(StaticElement(settings.ITEM_COIN, (900, 300)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 6:
             enemies2.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_2, (enemiespawn), (r2(),r2())))
-            coin.add(StaticElement(settings.ITEM_COIN, (600, 400)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 7:
             enemies2.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_2, (enemiespawn), (r2(),r2())))
-            coin.add(StaticElement(settings.ITEM_COIN, (300, 200)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 8:
             enemies2.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_2, (enemiespawn), (r2(),r2())))
             coin.add(StaticElement(settings.ITEM_COIN, (1000, 300)))
         if score == 9:
             enemies2.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_2, (enemiespawn), (r2(),r2())))
-            coin.add(StaticElement(settings.ITEM_COIN, (350, 600)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 10:
             enemies2.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_2, (enemiespawn), (r2(),r2())))
-            coin.add(StaticElement(settings.ITEM_COIN, (500, 600)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 11:
             pygame.sprite.Group.empty(enemies2)
             level_3()
             enemies3.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_3, (enemiespawn), (r3(),r3())))
-            coin.add(StaticElement(settings.ITEM_COIN, (900, 300)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 12:
             enemies3.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_3, (enemiespawn), (r3(),r3())))
-            coin.add(StaticElement(settings.ITEM_COIN, (800, 600)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 13:
             enemies3.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_3, (enemiespawn), (r3(),r3())))
-            coin.add(StaticElement(settings.ITEM_COIN, (300, 600)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 14:
             enemies3.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_3, (enemiespawn), (r3(),r3())))
-            coin.add(StaticElement(settings.ITEM_COIN, (400, 200)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 15:
             enemies3.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_3, (enemiespawn), (r3(),r3())))
-            coin.add(StaticElement(settings.ITEM_COIN, (600, 300)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 16:
             enemies3.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_3, (enemiespawn), (r3(),r3())))
-            coin.add(StaticElement(settings.ITEM_COIN, (1000, 500)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 17:
             enemies3.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_3, (enemiespawn), (r3(),r3())))
-            coin.add(StaticElement(settings.ITEM_COIN, (300, 400)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 18:
             enemies3.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_3, (enemiespawn), (r3(),r3())))
-            coin.add(StaticElement(settings.ITEM_COIN, (500, 600)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 19:
             enemies3.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_3, (enemiespawn), (r3(),r3())))
-            coin.add(StaticElement(settings.ITEM_COIN, (1000, 500)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 20:
             enemies3.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_3, (enemiespawn), (r3(),r3())))
-            coin.add(StaticElement(settings.ITEM_COIN, (200, 300)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 21:
             pygame.sprite.Group.empty(enemies3)
             level_4()
             enemies4.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_4, (enemiespawn), (r4(),r4())))
-            coin.add(StaticElement(settings.ITEM_COIN, (900, 300)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 22:
             enemies4.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_4, (enemiespawn), (r4(),r4())))
-            coin.add(StaticElement(settings.ITEM_COIN, (700, 200)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 23:
             enemies4.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_4, (enemiespawn), (r4(),r4())))
-            coin.add(StaticElement(settings.ITEM_COIN, (100, 600)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 24:
             enemies4.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_4, (enemiespawn), (r4(),r4())))
-            coin.add(StaticElement(settings.ITEM_COIN, (1000, 350)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 25:
             enemies4.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_4, (enemiespawn), (r4(),r4())))
-            coin.add(StaticElement(settings.ITEM_COIN, (200, 500)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 26:
             enemies4.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_4, (enemiespawn), (r4(),r4())))
-            coin.add(StaticElement(settings.ITEM_COIN, (500, 200)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 27:
             enemies4.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_4, (enemiespawn), (r4(),r4())))
-            coin.add(StaticElement(settings.ITEM_COIN, (800, 600)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 28:
             enemies4.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_4, (enemiespawn), (r4(),r4())))
-            coin.add(StaticElement(settings.ITEM_COIN, (900, 100)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 29:
             enemies4.add(BouncingElement(settings.ITEM_ENEMY_BLOCK_4, (enemiespawn), (r4(),r4())))
-            coin.add(StaticElement(settings.ITEM_COIN, (500, 500)))
+            coin.add(StaticElement(settings.ITEM_COIN, (cw(), ch())))
         if score == 30:
             chest.add(StaticElement(settings.ITEM_CHEST, (570, 70)))
